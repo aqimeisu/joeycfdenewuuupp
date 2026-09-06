@@ -2045,42 +2045,45 @@ function 生成值值数据对象(链接列表573) {
       timestamp: true
     },
     dns: {
-      servers: [{
-        tag: 'remote',
-        address: 域名系统值570,
-        detour: 'select'
-      }, {
-        tag: 'local',
-        address: '223.5.5.5',
-        detour: 'direct'
-      }, {
-        tag: 'fakeip',
-        address: 'fakeip'
-      }, {
-        tag: 'block',
-        address: 'rcode://success'
-      }],
-      rules: [{
-        outbound: 'any',
-        server: 'local'
-      }, {
-        rule_set: 'geosite-category-ads-all',
-        server: 'block'
-      }, {
-        rule_set: 'geosite-cn',
-        server: 'local'
-      }, {
-        query_type: ['A', 'AAAA'],
-        server: 'fakeip'
-      }],
-      fakeip: {
-        enabled: true,
-        inet4_range: '198.18.0.0/15',
-        inet6_range: 'fc00::/18'
-      },
-      independent_cache: true,
-      strategy: 'ipv4_only'
-    },
+  servers: [{
+    tag: 'remote',
+    address: 域名系统值570,
+    detour: 'select'
+  }, {
+    tag: 'local',
+    address: '223.5.5.5',
+    detour: 'direct'
+  }, {
+    tag: 'fakeip',
+    type: 'fakeip',              // 新增：显式声明类型
+    inet4_range: '198.18.0.0/15', // 从旧 fakeip 字段搬过来
+    inet6_range: 'fc00::/18'
+  }, {
+    tag: 'block',
+    address: 'rcode://success'
+  }],
+  rules: [{
+    outbound: 'any',
+    server: 'local'
+  }, {
+    rule_set: 'geosite-category-ads-all',
+    server: 'block'
+  }, {
+    rule_set: 'geosite-cn',
+    server: 'local'
+  }, {
+    query_type: ['A', 'AAAA'],
+    server: 'fakeip'
+  }],
+  // 删掉下面这个整段 fakeip 字段
+  // fakeip: {
+  //   enabled: true,
+  //   inet4_range: '198.18.0.0/15',
+  //   inet6_range: 'fc00::/18'
+  // },
+  independent_cache: true,
+  strategy: 'ipv4_only'
+},
     inbounds: [{
       type: 'mixed',
       tag: 'mixed-in',
